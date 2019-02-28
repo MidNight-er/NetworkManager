@@ -76,6 +76,9 @@ build_root = meson.current_build_dir()
 
 po_dir = join_paths(meson.source_root(), 'po')
 
+msgfmt = find_program('msgfmt')
+msgfmt_xml_cmd = [msgfmt, '--xml', '--template', '@INPUT@', '-d', po_dir, '-o', '@OUTPUT@']
+
 top_inc = include_directories('.')
 
 perl = find_program('perl')

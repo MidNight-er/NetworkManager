@@ -58,11 +58,11 @@ if enable_polkit
     configuration: data_conf,
   )
 
-  i18n.merge_file(
+  custom_target(
     policy,
     input: policy_in,
     output: '@BASENAME@',
-    po_dir: po_dir,
+    command: msgfmt_xml_cmd,
     install: true,
     install_dir: polkit_gobject_policydir,
   )
