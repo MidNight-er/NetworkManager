@@ -202,7 +202,6 @@ BuildRequires: meson
 BuildRequires: automake
 BuildRequires: autoconf
 %endif
-BuildRequires: intltool
 BuildRequires: gettext-devel
 
 BuildRequires: dbus-devel >= %{dbus_version}
@@ -659,7 +658,6 @@ This tool is still experimental.
 gtkdocize
 %endif
 autoreconf --install --force
-intltoolize --automake --copy --force
 %configure \
 	--with-runstatedir=%{_rundir} \
 	--disable-silent-rules \
