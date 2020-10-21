@@ -661,6 +661,8 @@ typedef struct _NMDevicePrivate {
         guint64 tx_bytes;
         guint64 rx_bytes;
     } stats;
+
+    bool mtu_force_set_done : 1;
 } NMDevicePrivate;
 
 G_DEFINE_ABSTRACT_TYPE(NMDevice, nm_device, NM_TYPE_DBUS_OBJECT)
@@ -10424,6 +10426,18 @@ _commit_mtu(NMDevice *self, const NMIP4Config *config)
     ip6_mtu_orig     = ip6_mtu;
 
     mtu_plat = nm_platform_link_get_mtu(nm_device_get_platform(self), ifindex);
+
+    if (NM_DEVICE_GET_CLASS(self)->mtu_force_set && !priv->mtu_force_set_done
+        && mtu_desired == mtu_plat) {
+        if (NM_DEVICE_GET_CLASS(self)->set_platform_mtu(self, mtu_desired - 1)) {
+            _LOGW(LOGD_DEVICE,
+                  "mtu: force-set MTU to %u, will be set to %u",
+                  mtu_desired - 1,
+                  mtu_desired);
+            priv->mtu_force_set_done = TRUE;
+        } else
+            _LOGW(LOGD_DEVICE, "mtu: failure to force-set MTU to %u", mtu_desired - 1);
+    }
 
     if (ip6_mtu) {
         ip6_mtu = NM_MAX(1280, ip6_mtu);

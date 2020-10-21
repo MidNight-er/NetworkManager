@@ -1159,6 +1159,7 @@ nm_device_bridge_class_init(NMDeviceBridgeClass *klass)
     device_class->link_types                = NM_DEVICE_DEFINE_LINK_TYPES(NM_LINK_TYPE_BRIDGE);
 
     device_class->is_master                   = TRUE;
+    device_class->mtu_force_set               = TRUE;
     device_class->get_generic_capabilities    = get_generic_capabilities;
     device_class->check_connection_compatible = check_connection_compatible;
     device_class->check_connection_available  = check_connection_available;
