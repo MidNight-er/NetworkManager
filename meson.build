@@ -749,6 +749,8 @@ if enable_nm_cloud_setup
   assert(libcurl_dep.found(), 'nm-cloud-setup requires libcurl library. Use -Dnm_cloud_setup=false to disable it')
 endif
 
+enable_docs = get_option('docs')
+
 more_asserts = get_option('more_asserts')
 if more_asserts == 'auto'
   if nm_minor_version % 2 == 0
@@ -917,8 +919,6 @@ if enable_qt
 
   subdir('examples/C/qt')
 endif
-
-enable_docs = get_option('docs')
 
 if enable_docs
   assert(enable_introspection, '-Ddocs=true requires -Dintrospection=true')
